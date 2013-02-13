@@ -132,6 +132,10 @@
 			<name>David Silk</name>
 			<email>dsilk@verisign.com</email>
 		</contributor>
+		<contributor>
+			<name>Simon Edwardsson</name>
+			<email>simon.edwardsson@gmail.com</email>
+		</contributor>
 	</contributors>
 	<pluginRepositories>
 		<pluginRepository>
