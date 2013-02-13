@@ -46,6 +46,7 @@ class StarTeamCheckoutActor implements FileCallable<Boolean>, Serializable {
 	private final StarTeamViewSelector config;
 	private final Collection<StarTeamFilePoint> historicFilePoints;
 	private final FilePath filePointFilePath;
+    private final boolean workingfolders;
 
 	/**
 	 * 
@@ -71,11 +72,13 @@ class StarTeamCheckoutActor implements FileCallable<Boolean>, Serializable {
 	 * 		change log file, as a filepath, to be able to write remotely.
 	 * @param listener
 	 * 		the build listener
+	 * @param workingfolders
+	 *      create working folders
 	 */
 	public StarTeamCheckoutActor(String hostname, int port, String user,
 			String passwd, String projectname, String viewname,
 			String foldername, StarTeamViewSelector config, FilePath changelogFile, BuildListener listener,
-			AbstractBuild<?, ?> build, FilePath filePointFilePath ) {
+			AbstractBuild<?, ?> build, FilePath filePointFilePath, boolean workingfolders) {
 		this.hostname = hostname;
 		this.port = port;
 		this.user = user;
@@ -87,6 +90,7 @@ class StarTeamCheckoutActor implements FileCallable<Boolean>, Serializable {
 		this.listener = listener;
 		this.config = config;
 		this.filePointFilePath = filePointFilePath;
+        this.workingfolders  = workingfolders;
 		
 		// Previous versions stored the build object as a member of StarTeamCheckoutActor. AbstractBuild
 		// objects are not serializable, therefore the starteam plugin would break when remoting to
@@ -119,7 +123,7 @@ class StarTeamCheckoutActor implements FileCallable<Boolean>, Serializable {
 			throws IOException {
 		StarTeamConnection connection = new StarTeamConnection(
 				hostname, port, user, passwd,
-				projectname, viewname, foldername, config);
+				projectname, viewname, foldername, config, workingfolders);
 		try {
 			connection.initialize();
 		} catch (StarTeamSCMException e) {

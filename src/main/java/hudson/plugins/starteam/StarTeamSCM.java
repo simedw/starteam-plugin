@@ -51,6 +51,7 @@ public class StarTeamSCM extends SCM {
 	private final int port;
 	private final String labelname;
 	private final boolean promotionstate;
+	private final boolean workingfolders;
 
 	private final StarTeamViewSelector config;
 	
@@ -76,11 +77,12 @@ public class StarTeamSCM extends SCM {
 	 *            label name used for polling view contents
 	 * @param promotionstate 
 	 *            indication if label name is actual label name or a promotion state name
-	 *
+	 * @param workingfolders
+	 *            indication if the working folders should be created
 	 */
 	@DataBoundConstructor
 	public StarTeamSCM(String hostname, int port, String projectname,
-			String viewname, String foldername, String username, String password, String labelname, boolean promotionstate) {
+			String viewname, String foldername, String username, String password, String labelname, boolean promotionstate, boolean workingfolders) {
 		this.hostname = hostname;
 		this.port = port;
 		this.projectname = projectname;
@@ -90,6 +92,7 @@ public class StarTeamSCM extends SCM {
 		this.passwd = password;
 		this.labelname = labelname;
 		this.promotionstate = promotionstate;
+        this.workingfolders = workingfolders;
 		StarTeamViewSelector result = null;
 		if ((this.labelname != null) && (this.labelname.length() != 0))
 		{
@@ -127,7 +130,7 @@ public class StarTeamSCM extends SCM {
 	    // Create an actor to do the checkout, possibly on a remote machine
 	    StarTeamCheckoutActor co_actor = new StarTeamCheckoutActor(hostname,
 	            port, user, passwd, projectname, viewname, foldername, config,
-	            changeLogFilePath, listener, build, filePointFilePath);
+	            changeLogFilePath, listener, build, filePointFilePath, workingfolders);
 	    if (workspace.act(co_actor)) {
 	        // change log is written during checkout (only one pass for
 	        // comparison)
@@ -329,4 +332,13 @@ public class StarTeamSCM extends SCM {
 	public boolean isPromotionstate() {
 		return promotionstate;
 	}
+
+    /**
+     * Should the working folders be created?
+     *
+     * @return True if the working folders should be created.
+     */
+    public boolean getWorkingfolders() {
+        return workingfolders;
+    } 
 }

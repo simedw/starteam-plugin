@@ -62,6 +62,7 @@ public class StarTeamConnection implements Serializable {
 	private final String viewName;
 	private final String folderName;
 	private final StarTeamViewSelector configSelector;
+    private final boolean workingfolders;
 
 	private transient Server server;
 	private transient View view;
@@ -88,8 +89,10 @@ public class StarTeamConnection implements Serializable {
 	 * @param configSelector 
 	 *            configuration selector 
 	 *            in case of checking from label, promotion state or time
+	 * @param workingfolders
+	 *            create working folders
 	 */
-	public StarTeamConnection(String hostName, int port, String userName, String password, String projectName, String viewName, String folderName, StarTeamViewSelector configSelector) {
+	public StarTeamConnection(String hostName, int port, String userName, String password, String projectName, String viewName, String folderName, StarTeamViewSelector configSelector, boolean workingfolders) {
 		checkParameters(hostName, port, userName, password, projectName, viewName, folderName);
 		this.hostName = hostName;
 		this.port = port;
@@ -99,13 +102,15 @@ public class StarTeamConnection implements Serializable {
 		this.viewName = viewName;
 		this.folderName = folderName;
 		this.configSelector = configSelector;
+        this.workingfolders = workingfolders;
 	}
 
 	public StarTeamConnection(StarTeamConnection oldConnection, StarTeamViewSelector configSelector) {
 		this(oldConnection.hostName, oldConnection.port,
 				oldConnection.userName, oldConnection.password,
 				oldConnection.projectName, oldConnection.viewName,
-				oldConnection.folderName, configSelector);
+				oldConnection.folderName, configSelector,
+                oldConnection.workingfolders);
 	}
 	private ServerInfo createServerInfo() {
 		ServerInfo serverInfo = new ServerInfo();
@@ -219,7 +224,10 @@ public class StarTeamConnection implements Serializable {
 	    if (quietCheckout) {
 	      logger.println("*** More than 2000 files, quiet mode enabled");
 	    }
-		for (File f : changeSet.getFilesToCheckout()) {
+        if(workingfolders) {
+            StarTeamFunctions.createWorkingFolders(rootFolder,logger);
+		}
+        for (File f : changeSet.getFilesToCheckout()) {
 			boolean dirty = true;
 			switch (f.getStatus()) {
 				case Status.UNKNOWN:

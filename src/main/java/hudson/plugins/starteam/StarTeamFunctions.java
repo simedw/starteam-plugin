@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.TreeMap;
+import java.io.PrintStream;
+
 
 import org.apache.commons.lang.StringUtils;
 
@@ -157,6 +159,21 @@ public static Map<java.io.File,com.starbase.starteam.File> convertToFileMap(fina
       result.put(new java.io.File(f.getFullName()),f);
     }
     return result;
+  }
+
+  /**
+   * Create the working folders recursively 
+   */ 
+  public static void createWorkingFolders(Folder folder, PrintStream logger) {
+    java.io.File dir = new java.io.File(folder.getPath());
+    if(!dir.exists()) {
+        boolean res = dir.mkdirs();
+        if(!res) {
+            logger.println("Could not create: " + folder.getPath());
+        }
+    }
+    for(Folder f : folder.getSubFolders())
+        createWorkingFolders(f, logger);
   }
 
 }

@@ -33,4 +33,7 @@
 	<f:entry title="Password" help="/plugin/starteam/help/stpassword.html">
 		<f:password name="starteam.password" value="${scm.password}" />
 	</f:entry>
+	<f:entry title="Crreate working folders" help="/plugin/starteam/help/stworkingfolders.html">
+		<f:checkbox name="starteam.workingfolders" checked="${scm.workingfolders}" />
+	</f:entry>
 </j:jelly>
