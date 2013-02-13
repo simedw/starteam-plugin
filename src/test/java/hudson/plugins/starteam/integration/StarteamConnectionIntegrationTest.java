@@ -59,7 +59,7 @@ public class StarteamConnectionIntegrationTest {
 		String password = System.getProperty("test.starteam.password", "");
 		dateinpast = System.getProperty("test.starteam.dateinpast", "");
 
-		starTeamConnection = new StarTeamConnection( hostName, port, userName, password, projectName, viewName, folderName, null ) ;
+		starTeamConnection = new StarTeamConnection( hostName, port, userName, password, projectName, viewName, folderName, null, false) ;
 		starTeamConnection.initialize() ;
 	
 		//create the default folder

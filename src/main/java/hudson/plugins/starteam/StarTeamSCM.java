@@ -187,7 +187,7 @@ public class StarTeamSCM extends SCM {
 		
 		// Create an actor to do the polling, possibly on a remote machine
 		StarTeamPollingActor p_actor = new StarTeamPollingActor(hostname, port,
-				user, passwd, projectname, viewname, foldername,
+				user, passwd, projectname, viewname, foldername, workingfolders,
 				config, listener,
 				historicFilePoints);
 		if (workspace.act(p_actor)) {

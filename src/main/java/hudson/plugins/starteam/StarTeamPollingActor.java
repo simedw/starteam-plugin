@@ -39,6 +39,7 @@ public class StarTeamPollingActor implements FileCallable<Boolean> {
 	private String viewname;
 
 	private String foldername;
+	private boolean workingfolders;
 
 	private final TaskListener listener;
 
@@ -55,13 +56,14 @@ public class StarTeamPollingActor implements FileCallable<Boolean> {
 	 * @param projectname starteam project name
 	 * @param viewname  starteam view name
 	 * @param foldername starteam parent folder name
+	 * @param workingfolder create workingfolders
 	 * @param config configuration selector
 	 * @param listener Hudson task listener.
 	 * @param historicFilePoints  
 	 */
 	public StarTeamPollingActor(String hostname, int port, String user,
 			String passwd, String projectname, String viewname,
-			String foldername, StarTeamViewSelector config, TaskListener listener, Collection<StarTeamFilePoint> historicFilePoints) {
+			String foldername, boolean workingfolders, StarTeamViewSelector config, TaskListener listener, Collection<StarTeamFilePoint> historicFilePoints) {
 		this.hostname = hostname;
 		this.port = port;
 		this.user = user;
@@ -69,6 +71,7 @@ public class StarTeamPollingActor implements FileCallable<Boolean> {
 		this.projectname = projectname;
 		this.viewname = viewname;
 		this.foldername = foldername;
+        this.workingfolders = workingfolders;
 		this.listener = listener;
 		this.config = config;
 		this.historicFilePoints=historicFilePoints;
@@ -84,7 +87,7 @@ public class StarTeamPollingActor implements FileCallable<Boolean> {
 
 		StarTeamConnection connection = new StarTeamConnection(
 				hostname, port, user, passwd,
-				projectname, viewname, foldername, config);
+				projectname, viewname, foldername, config, workingfolders);
 		try {
 			connection.initialize();
 		} catch (StarTeamSCMException e) {
