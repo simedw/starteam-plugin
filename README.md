@@ -32,7 +32,7 @@ You will also need to configure your settings.xml file (found in $HOME/.m2/ on
 unix and %USERPROFILE%\.m2\ on windows).  Here are some instructions for setting
 up both.
 
-## Repository setup:
+### Repository setup:
 
 1. Create a repository
        * My repository is named "Hudson Plugin Test"
